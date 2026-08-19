@@ -1,0 +1,61 @@
+======================================================================
+TASK 2: RESTAURANT RECOMMENDATION SYSTEM (Content-Based Filtering)
+======================================================================
+
+Dataset loaded: 9551 restaurants, 22 original columns
+Feature matrix built: 290 features (146 cuisine categories + price/cost/votes + city)
+
+----------------------------------------------------------------------
+SAMPLE USER 1 PREFERENCES: {'cuisines': ['Italian'], 'price_range': 3, 'avg_cost_for_two': 1200, 'city': 'New Delhi'}
+----------------------------------------------------------------------
+              Restaurant Name      City Cuisines  Average Cost for two  Price range  Aggregate rating  Votes  Similarity Score
+                       Amalfi New Delhi  Italian                  1800            3               3.9    484          0.957652
+               28 Capri Italy New Delhi  Italian                  1500            3               3.9    245          0.954699
+            Spaghetti Kitchen New Delhi  Italian                  2000            4               3.8    601          0.949512
+      Artusi Ristorante e Bar New Delhi  Italian                  3000            4               4.1    496          0.948311
+    La Piazza - Hyatt Regency New Delhi  Italian                  4500            4               3.9    410          0.947313
+Diva - The Italian Restaurant New Delhi  Italian                  2500            4               3.8    372          0.946871
+                  Moets Stone New Delhi  Italian                  2000            4               3.8    354          0.946660
+ San Gimignano - The Imperial New Delhi  Italian                  5000            4               3.7    104          0.943676
+                    Sinyora's New Delhi  Italian                   500            2               4.0     51          0.941216
+                    Pasta Hub New Delhi  Italian                   200            1               3.0     16          0.905624
+
+Evaluation: {'cuisine_match_rate': np.float64(100.0), 'avg_rating': np.float64(3.79), 'avg_price_range': np.float64(3.3)}
+
+----------------------------------------------------------------------
+SAMPLE USER 2 PREFERENCES: {'cuisines': ['North Indian', 'Chinese'], 'price_range': 1, 'avg_cost_for_two': 400, 'city': 'New Delhi'}
+----------------------------------------------------------------------
+         Restaurant Name      City              Cuisines  Average Cost for two  Price range  Aggregate rating  Votes  Similarity Score
+               Moon Bite New Delhi North Indian, Chinese                   300            1               3.1    177          0.972883
+              Wah Ji Wah New Delhi North Indian, Chinese                   350            1               2.6    142          0.972624
+Garam Masala Food Corner New Delhi North Indian, Chinese                   450            1               3.3    114          0.972417
+              Wah Ji Wah New Delhi North Indian, Chinese                   450            1               2.1    112          0.972402
+           Punjabi Zaika New Delhi North Indian, Chinese                   400            1               3.3    110          0.972387
+              Apni Rasoi New Delhi North Indian, Chinese                   400            1               2.8    109          0.972380
+       Hari Mirch Masala New Delhi North Indian, Chinese                   350            1               2.8    101          0.972320
+        Suresh Fast Food New Delhi North Indian, Chinese                   250            1               3.7     91          0.972246
+      Delhi Darbar Dhaba New Delhi North Indian, Chinese                   400            1               3.2     89          0.972231
+   Grain Bell Restaurant New Delhi North Indian, Chinese                   450            1               2.8     81          0.972171
+
+Evaluation: {'cuisine_match_rate': np.float64(100.0), 'avg_rating': np.float64(2.97), 'avg_price_range': np.float64(1.0)}
+
+----------------------------------------------------------------------
+SAMPLE USER 3 PREFERENCES: {'cuisines': ['Japanese'], 'price_range': 4, 'avg_cost_for_two': 3000, 'city': ''}
+----------------------------------------------------------------------
+         Restaurant Name           City Cuisines  Average Cost for two  Price range  Aggregate rating  Votes  Similarity Score
+Fuji Japanese Restaurant      New Delhi Japanese                  2000            4               4.0    312          0.934979
+Konomi - Trident Gurgaon        Gurgaon Japanese                  3000            4               3.5     27          0.931653
+            Sushi Leblon Rio de Janeiro Japanese                   250            4               4.6     25          0.931628
+                New Koto      Bras�_lia Japanese                   200            4               3.7      5          0.931390
+        Izakaya Kikufuji    Makati City Japanese                  1200            3               4.5    591          0.926404
+                  Tamura      New Delhi Japanese                  1500            3               3.5    163          0.921273
+                 Kuuraku        Gurgaon Japanese                  1250            3               3.9    106          0.920566
+                Daikichi        Gurgaon Japanese                  1000            3               3.6     70          0.920117
+                 Komachi        Gurgaon Japanese                  1200            3               3.2     39          0.919729
+                  Tamura      New Delhi Japanese                  1500            3               3.3     19          0.919478
+
+Evaluation: {'cuisine_match_rate': np.float64(100.0), 'avg_rating': np.float64(3.78), 'avg_price_range': np.float64(3.4)}
+
+======================================================================
+Recommendation system test complete.
+======================================================================
