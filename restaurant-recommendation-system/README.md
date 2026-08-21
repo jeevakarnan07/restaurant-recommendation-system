@@ -1,106 +1,80 @@
 # Restaurant Recommendation System
 
-A content-based restaurant recommendation engine built as part of the **Cognifyz Technologies Machine Learning Internship** (Task 2). Given a user's preferences — cuisine, price range, budget, and city — the system recommends the most similar restaurants from a dataset of ~9,500 restaurants using cosine similarity.
+A content-based recommendation engine that ranks restaurants against user preferences for cuisine, budget, price range, and city.
 
-## Objective
+## Project Overview
 
-Build a recommendation system that suggests restaurants to a user based on their preferences, using a content-based filtering approach (as opposed to collaborative filtering, which needs historical user-item interaction data this dataset doesn't have).
+Built for the Cognifyz Technologies Machine Learning Internship (Task 2), this project converts restaurant attributes into a shared feature space and uses cosine similarity to rank the best matches for a user profile.
 
-## Dataset
+## How It Works
 
-- **Source:** `data/Dataset.csv`
-- **Size:** 9,551 restaurants × 21 original columns
-- **Key fields used:** Cuisines, City, Average Cost for two, Price range, Votes, Aggregate rating
+1. Load and clean 9,551 restaurant records.
+2. Split multi-cuisine values into individual cuisine tags.
+3. Multi-hot encode cuisines with `MultiLabelBinarizer`.
+4. One-hot encode cities.
+5. Scale cost, price range, and votes with `MinMaxScaler`.
+6. Weight cuisine and city signals to reflect their importance.
+7. Build a user-preference vector in the same feature space.
+8. Rank restaurants with cosine similarity.
+9. Evaluate top-N results using cuisine match rate, average rating, and average price range.
 
-## Approach
+## Example Preferences
 
-1. **Preprocessing**
-   - Missing `Cuisines` values filled with `"Unknown"` instead of dropping rows.
-   - `Cuisines` split into individual cuisine tags per restaurant.
+```python
+user_prefs = {
+    "cuisines": ["Italian"],
+    "price_range": 3,
+    "avg_cost_for_two": 1200,
+    "city": "New Delhi",
+}
+```
 
-2. **Feature Encoding**
-   - **Cuisines** → multi-hot encoded (a restaurant can serve multiple cuisines) via `MultiLabelBinarizer`.
-   - **City** → one-hot encoded via `pd.get_dummies`.
-   - **Average Cost for two, Price range, Votes** → scaled to [0, 1] with `MinMaxScaler` so no single numeric feature dominates the distance calculation.
-   - Cuisine features are weighted 2× since cuisine match is the primary driver of a good recommendation; city features are weighted 0.5× as a secondary signal.
+## Current Sample Results
 
-3. **User Profile Vector**
-   - The user's stated preferences (cuisines, price range, budget, city) are encoded into a vector in the *same feature space* as the restaurants.
+| Preference | Cuisine Match | Avg. Rating |
+|---|---:|---:|
+| Italian · mid-price · New Delhi | 100% | 3.79 |
+| North Indian + Chinese · budget · New Delhi | 100% | 2.97 |
+| Japanese · fine dining · any city | 100% | 3.78 |
 
-4. **Content-Based Filtering**
-   - **Cosine similarity** between the user vector and every restaurant vector ranks restaurants by how closely they match the user's stated tastes.
-   - If the user specifies a city with enough matching restaurants, results are filtered to that city first, then ranked by similarity.
+These figures come from the committed sample run and should be regenerated if the model or dataset changes.
 
-5. **Evaluation**
-   - Cuisine match rate (% of top-N results containing a requested cuisine)
-   - Average rating and average price range of the recommended set
+## Tech Stack
+
+Python · pandas · NumPy · scikit-learn · cosine similarity
 
 ## Project Structure
 
-```
+```text
 restaurant-recommendation-system/
 ├── data/
-│   └── Dataset.csv              # Restaurant dataset
-├── recommendation_system.py     # Main script: preprocessing + recommender
-├── sample_output.txt            # Captured output from a sample run
+│   └── Dataset.csv
+├── recommendation_system.py
+├── sample_output.txt
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-## How to Run
+## Run Locally
 
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Run the recommender (executes 3 built-in sample users)
 python recommendation_system.py
 ```
 
-To get recommendations for your own preferences, import the functions directly:
+## Recommended Next Improvements
 
-```python
-from recommendation_system import load_and_preprocess, recommend_restaurants
+- Add a Streamlit interface for interactive recommendations.
+- Persist the fitted preprocessing objects so inference uses exactly the training-time feature space.
+- Allow users to control the relative weights of cuisine, budget, rating, and location.
+- Add recommendation diversity so the top-N list is not overly similar.
+- Add a hybrid recommender when user-item interaction history becomes available.
 
-df, feature_matrix, mlb = load_and_preprocess("data/Dataset.csv")
+## Resume Description
 
-user_prefs = {
-    "cuisines": ["Italian"],
-    "price_range": 3,        # 1 (cheap) - 4 (expensive)
-    "avg_cost_for_two": 1200,
-    "city": "New Delhi",
-}
-
-recommendations = recommend_restaurants(user_prefs, df, feature_matrix, mlb, top_n=10)
-print(recommendations)
-```
-
-## Sample Results
-
-| User Preference | Cuisine Match Rate | Avg. Rating |
-|---|---|---|
-| Italian, mid-price, New Delhi | 100% | 3.79 |
-| North Indian + Chinese, budget, New Delhi | 100% | 2.97 |
-| Japanese, fine dining, any city | 100% | 3.78 |
-
-Full output for all three test cases is saved in `sample_output.txt`.
-
-## Tech Stack
-
-- Python
-- pandas, NumPy
-- scikit-learn (`MultiLabelBinarizer`, `MinMaxScaler`, `cosine_similarity`)
-
-## Possible Improvements
-
-- Add a hybrid approach combining content-based filtering with collaborative filtering if user rating history becomes available.
-- Let users weight criteria themselves (e.g. prioritize cuisine over price).
-- Wrap in a small Streamlit/Flask app for an interactive demo.
+**Restaurant Recommendation System | Python, pandas, scikit-learn** — Developed a content-based recommender for 9,551 restaurants using multi-hot cuisine encoding, feature scaling, weighted user profiles, and cosine similarity; evaluated recommendation quality with cuisine-match and rating metrics.
 
 ## Author
 
-**Jeeva Karnan** — B.Tech, Artificial Intelligence and Data Science
-Cognifyz Technologies ML Internship — Task 2: Restaurant Recommendation
-
-#cognifyz #cognifyzTech #cognifyzTechnologies
+**Jeeva Karnan** · B.Tech Artificial Intelligence & Data Science
